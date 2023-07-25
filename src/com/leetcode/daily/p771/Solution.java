@@ -1,44 +1,24 @@
 
-package com.leetcode.daily.p735;
+package com.leetcode.daily.p771;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 class Solution {
-    public int[] asteroidCollision(int[] asteroids) {
-        for (int i = 0; i < asteroids.length - 1; i++) {
-            if (asteroids[i] * asteroids[i + 1] < 0) {
-                if (Math.abs(asteroids[i]) < Math.abs(asteroids[i + 1])) {
-                    asteroids[i] = 0;
-                    compairforword(i - 1, i + 1, asteroids);
-                } else if (Math.abs(asteroids[i]) > Math.abs(asteroids[i + 1])) {
-                    asteroids[i + 1] = asteroids[i];
-                    asteroids[i] = 0;
-                } else {
-                    asteroids[i] = 0;
-                    asteroids[i + 1] = 0;
-                }
+    public int numJewelsInStones(String jewels, String stones) {
+        int result = 0;
+        Set<Character> hashSet = jewels.chars().mapToObj(e -> (char) e).collect(Collectors.toSet());
+        for (char c : stones.toCharArray()) {
+            if (hashSet.contains(c)) {
+                result++;
             }
         }
-
-        return Arrays.stream(asteroids).filter(i -> i != 0).toArray();
-    }
-
-    public void compairforword(int position, int currentIndex, int[] data) {
-        if (position < 0 || data[position] == 0) return;
-
-        if (Math.abs(data[position]) < Math.abs(data[currentIndex])) {
-            data[position] = 0;
-            compairforword(position - 1, currentIndex, data);
-        } else if (Math.abs(data[position]) > Math.abs(data[currentIndex])) {
-            data[currentIndex] = data[position];
-            data[position] = 0;
-        } else {
-            data[position] = 0;
-            data[currentIndex] = 0;
-        }
+        return result;
     }
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(new Solution().asteroidCollision(new int[]{10, 2, -5})));
+        System.out.println(new Solution().numJewelsInStones("Aa", "dfgsaASAFASD"));
     }
 }
